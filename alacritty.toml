@@ -1,0 +1,30 @@
+[window]
+decorations = "None"
+opacity = 1.0
+startup_mode = "Maximized"
+
+[colors.primary]
+background = "#0A0E14"
+
+[font]
+size = 12
+
+[font.normal]
+family = "FiraCodeNerdFont"
+style = "Regular"
+
+[font.bold]
+family = "FiraCodeNerdFont"
+style = "Bold"
+
+[font.italic]
+family = "FiraCodeNerdFont"
+style = "Italic"
+
+
+[terminal.shell]
+program="/usr/bin/tmux"
+args=["new-session"]
+
+[keyboard]
+bindings = [{ key = "F11", action = "ToggleFullscreen"}]
