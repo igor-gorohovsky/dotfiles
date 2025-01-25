@@ -266,7 +266,7 @@ main() {
     local START_DIR
     START_DIR=$(pwd)
     cd ~
-    mkdir projects
+    mkdir -p projects
     export PATH="$HOME/.local/bin:$PATH"
 
     initial_setup
