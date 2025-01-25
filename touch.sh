@@ -43,6 +43,7 @@ initial_setup() {
     echog "Installing basic dependencies..."
     sudo apt install -y \
         curl \
+        wget \
         vim \
         git \
         gcc \
