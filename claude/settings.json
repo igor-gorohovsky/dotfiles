@@ -1,0 +1,68 @@
+{
+  "env": {
+    "CLAUDE_CODE_NO_FLICKER": "1"
+  },
+  "permissions": {
+    "deny": [
+      "mcp__plugin_documentation-researcher_context7__get-library-docs",
+      "mcp__context7__resolve-library-id"
+    ],
+    "defaultMode": "auto"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "documentation-researcher@igor-gorohovsky-marketplace": false,
+    "rust-analyzer-lsp@claude-plugins-official": false,
+    "typescript-lsp@claude-plugins-official": false,
+    "code-review@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": false,
+    "example-skills@anthropic-agent-skills": false,
+    "pyright-lsp@claude-plugins-official": false,
+    "frontend-design@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "xhigh",
+  "advisorModel": "opus",
+  "awaySummaryEnabled": false,
+  "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": true,
+  "preferredNotifChannel": "ghostty",
+  "terminalProgressBarEnabled": false,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true,
+  "mcpServers": {
+    "browser": {
+      "command": "uvx",
+      "args": [
+        "browser-use",
+        "--mcp"
+      ]
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/igorohovsky/.claude/scripts/claude-pre-tool-use.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/igorohovsky/.claude/scripts/claude-stop.py"
+          }
+        ]
+      }
+    ]
+  }
+}
