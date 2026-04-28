@@ -1,0 +1,7 @@
+background = 0a0e14
+font-size = 14
+font-family = "JetBrainsMono Nerd Font"
+desktop-notifications = true
+macos-option-as-alt = true
+keybind = alt+left=unbind
+keybind = alt+right=unbind
