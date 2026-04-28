@@ -1,0 +1,20 @@
+layout {
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+    }
+
+    tab name="claude-review" {
+        pane split_direction="vertical" {
+            pane name="nvim" {
+                command "nvim"
+            }
+            pane name="claude" focus=true {
+                command "claude"
+                args "--allow-dangerously-skip-permissions"
+            }
+        }
+    }
+}
