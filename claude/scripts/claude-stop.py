@@ -4,16 +4,32 @@ import pathlib
 import sys
 
 NOTES_FILE = pathlib.Path("/tmp/claude-review-notes.md")
+COMMENTS_FILE = pathlib.Path("/tmp/claude-review-comments.md")
+
+
+def read_and_clear(path):
+    if path.exists() and path.stat().st_size > 0:
+        text = path.read_text().strip()
+        path.unlink(missing_ok=True)
+        return text
+    return ""
 
 
 def main():
-    if NOTES_FILE.exists() and NOTES_FILE.stat().st_size > 0:
-        notes = NOTES_FILE.read_text().strip()
-        NOTES_FILE.unlink(missing_ok=True)
+    notes = read_and_clear(NOTES_FILE)
+    comments = read_and_clear(COMMENTS_FILE)
+
+    sections = []
+    if notes:
+        sections.append(f"Deferred review notes:\n{notes}")
+    if comments:
+        sections.append(f"Inline review comments:\n{comments}")
+
+    if sections:
         json.dump(
             {
                 "decision": "block",
-                "reason": f"Deferred review notes:\n{notes}",
+                "reason": "\n\n".join(sections),
             },
             sys.stdout,
         )

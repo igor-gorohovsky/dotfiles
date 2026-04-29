@@ -10,10 +10,11 @@ import uuid
 
 PAUSE_FILE = pathlib.Path.home() / ".cache" / "claude-review-paused"
 NOTES_FILE = pathlib.Path("/tmp/claude-review-notes.md")
+COMMENTS_FILE = pathlib.Path("/tmp/claude-review-comments.md")
 TARGET_TOOLS = {"Edit", "Write", "MultiEdit"}
 
 
-def emit(decision, reason=None):
+def emit(decision, reason=None, additional_context=None, system_message=None):
     out = {
         "hookSpecificOutput": {
             "hookEventName": "PreToolUse",
@@ -22,6 +23,10 @@ def emit(decision, reason=None):
     }
     if reason:
         out["hookSpecificOutput"]["permissionDecisionReason"] = reason
+    if additional_context:
+        out["hookSpecificOutput"]["additionalContext"] = additional_context
+    if system_message:
+        out["systemMessage"] = system_message
     json.dump(out, sys.stdout)
     sys.exit(0)
 
@@ -67,7 +72,8 @@ def main():
         emit("allow")
 
     review_id = uuid.uuid4().hex[:8]
-    pending = pathlib.Path(f"/tmp/claude-pending-{review_id}")
+    suffix = pathlib.Path(file_path).suffix
+    pending = pathlib.Path(f"/tmp/claude-pending-{review_id}{suffix}")
     pending.write_text(new_content)
 
     fifo_dir = pathlib.Path(tempfile.mkdtemp(prefix="claude-fifo-"))
@@ -80,7 +86,8 @@ def main():
             f"file=[[{file_path}]],"
             f"pending=[[{pending}]],"
             f"fifo=[[{fifo}]],"
-            f"notes_file=[[{NOTES_FILE}]]"
+            f"notes_file=[[{NOTES_FILE}]],"
+            f"comments_file=[[{COMMENTS_FILE}]]"
             "})"
         )
         subprocess.run(
@@ -109,6 +116,11 @@ def main():
         emit("allow")
     if decision.startswith("deny:"):
         reason = decision[5:] or "declined"
+        if COMMENTS_FILE.exists() and COMMENTS_FILE.stat().st_size > 0:
+            comments = COMMENTS_FILE.read_text().strip()
+            COMMENTS_FILE.unlink(missing_ok=True)
+            body = f"Inline review comments:\n{comments}"
+            emit("deny", reason, additional_context=body, system_message=body)
         emit("deny", reason)
     emit("allow")
 
