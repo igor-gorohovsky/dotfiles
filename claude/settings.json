@@ -16,7 +16,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/igorohovsky/.claude/scripts/claude-pre-tool-use.py"
+            "command": "/Users/igorohovsky/.claude/scripts/claude-pre-tool-use.py",
+            "timeout": 3600
           }
         ]
       }
