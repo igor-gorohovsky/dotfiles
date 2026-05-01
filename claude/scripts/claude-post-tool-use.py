@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import json
+import os
 import pathlib
 import sys
 
-COMMENTS_FILE = pathlib.Path("/tmp/claude-review-comments.md")
+COMMENTS_FILE = pathlib.Path(os.environ.get("AGENT_REVIEW_COMMENTS_FILE", "/tmp/agent-review-comments.md"))
 
 
 def main():

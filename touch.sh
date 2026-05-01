@@ -250,6 +250,7 @@ clone_configs() {
 
     git clone https://github.com/igor-gorohovsky/nvim.git ~/.config/nvim
     git clone https://github.com/igor-gorohovsky/dotfiles ~/projects/dotfiles
+    git clone https://github.com/igor-gorohovsky/agent-review.nvim ~/projects/agent-review.nvim
     cp ~/projects/dotfiles/alacritty.toml ~/.config/alacritty
     cp ~/projects/dotfiles/tmux.conf ~/.config/tmux
 }

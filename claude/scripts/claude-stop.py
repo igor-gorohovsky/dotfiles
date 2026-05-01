@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import json
+import os
 import pathlib
 import sys
 
-NOTES_FILE = pathlib.Path("/tmp/claude-review-notes.md")
-COMMENTS_FILE = pathlib.Path("/tmp/claude-review-comments.md")
+NOTES_FILE = pathlib.Path(os.environ.get("AGENT_REVIEW_NOTES_FILE", "/tmp/agent-review-notes.md"))
+COMMENTS_FILE = pathlib.Path(os.environ.get("AGENT_REVIEW_COMMENTS_FILE", "/tmp/agent-review-comments.md"))
 
 
 def read_and_clear(path):
